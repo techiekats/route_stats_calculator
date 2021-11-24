@@ -1,10 +1,12 @@
-Driving History Tracker
+Ride stats generator
 =======================
 
 Overall approach
 ----------------
 
 (*Solution assumes data is accurate hence performs minimal data validations and exception handling)
+
+* Assume unbounded data set, hence do not store more in memory than is needed
 
 * Code to interfaces, not concrete classes
   * Reduces coupling between classes
