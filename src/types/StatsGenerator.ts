@@ -9,15 +9,15 @@ export default class StatsGenerator {
     private tripsByRider: {[key: string]: Trip} = {};
     
     //If Request or pickup, just update data structure. Else, also emit the JSON
-    public AddRecord (riderId:string, driverId: string, time: Date,  eventType: EventEnum) : void | string {
+    public AddRecord (riderId:string, driverId: string, time: Date,  eventType: EventEnum) : void {
         switch (eventType) {
             case EventEnum.REQUEST :
-                this.tripsByRider[riderId] = new Trip(time, driverId);
+                this.tripsByRider[riderId] = new Trip(time, driverId, riderId);
                 this.numberOfRequests+=1;
                 break;
             case EventEnum.DROPOFF : 
                 this.tripsByRider[riderId].SetDropoffTime(time);
-                this.numberOfDropOffs +=1;
+                this.numberOfDropOffs +=1;                
                 break;
             case EventEnum.PICKUP :
                 this.tripsByRider[riderId].SetPickupTime(time);
@@ -26,6 +26,17 @@ export default class StatsGenerator {
         }
     }
     
+    //Assuming this method is being called for a valid trip
+    //TODO: Add exception handling for invalid trips
+    public GetTripSummary (riderId: string) {
+        var summary = {
+            "Request to pickup time" : this.tripsByRider[riderId].GetTimeDifferenceBetweenEvents(EventEnum.REQUEST, EventEnum.PICKUP),
+            "Request to drop off time" : this.tripsByRider[riderId].GetTimeDifferenceBetweenEvents(EventEnum.REQUEST, EventEnum.DROPOFF),
+            "Pickup to drop off time" : this.tripsByRider[riderId].GetTimeDifferenceBetweenEvents(EventEnum.PICKUP, EventEnum.DROPOFF)
+        };
+        return summary;
+    }
+
     //Number of requests, pickups, 
     public GetEventFrequency () {
         var result = {
@@ -37,7 +48,8 @@ export default class StatsGenerator {
         return result;
     }
 
-    public GetTimeBetween (eventType: EventEnum) {
-
+    public GetTimeBetween (eventType: EventEnum) : number {
+        //TODO: implement
+        return 0;
     }
 }
