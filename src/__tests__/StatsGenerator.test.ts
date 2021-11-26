@@ -19,9 +19,9 @@ import StatsGenerator from "../types/StatsGenerator";
     expect(result["Request to drop off time"]).toBe(0);
     expect(result["Pickup to drop off time"]).toBe(0);
     var eventFrequency = s.GetEventFrequency();
-    expect(eventFrequency[0]).toBe(1);
-    expect(eventFrequency[1]).toBe(1);
-    expect(eventFrequency[2]).toBe(1);
+    expect(eventFrequency[EventEnum.REQUEST]).toBe(1);
+    expect(eventFrequency[EventEnum.PICKUP]).toBe(1);
+    expect(eventFrequency[EventEnum.DROPOFF]).toBe(1);
   });
 
   test('get time between - base case', () => {
@@ -80,7 +80,7 @@ import StatsGenerator from "../types/StatsGenerator";
     );
     s.AddRecord("K19", "H19", new Date(), EventEnum.REQUEST);
     var frequency = s.GetEventFrequency();
-    expect(frequency[0]).toBe(4);
-    expect(frequency[1]).toBe(3);
-    expect(frequency[2]).toBe(3);
+    expect(frequency[EventEnum.REQUEST]).toBe(4);
+    expect(frequency[EventEnum.PICKUP]).toBe(3);
+    expect(frequency[EventEnum.DROPOFF]).toBe(3);
   });

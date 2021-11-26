@@ -4,9 +4,9 @@ import Trip from "./Trip";
 
 export default class StatsGenerator {
     //TODO: Remove state. all except tripsByRider should be removed    
-    private eventFrequency: {[key:number]: number} = {};
-    private prevTimeOfEvent: {[key:number]: Date} = {};        
-    private eventTypeStats : {[key: number]: {totalTime:number, min: number, max:number}} = {};
+    private eventFrequency: {[key:string]: number} = {};
+    private prevTimeOfEvent: {[key:string]: Date} = {};        
+    private eventTypeStats : {[key: string]: {totalTime:number, min: number, max:number}} = {};
     private tripsByRider: {[key: string]: Trip} = {};
         
     constructor() {

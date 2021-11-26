@@ -24,11 +24,9 @@ function main(argv: string[]) {
                 }
                 else {
                     var eventType: EventEnum = EventEnum.INVALID;
-                    logger.LogInfo(columns[3]);
-                    logger.LogInfo(columns[3].length.toString());
-                    if (columns[3].startsWith('Request'))   eventType = EventEnum.REQUEST;
-                    if (columns[3].startsWith('Pickup'))   eventType = EventEnum.PICKUP;
-                    if (columns[3].startsWith('Drop-Off'))   eventType = EventEnum.DROPOFF;
+                    if (columns[3].startsWith(EventEnum.REQUEST))   eventType = EventEnum.REQUEST;
+                    if (columns[3].startsWith(EventEnum.PICKUP))   eventType = EventEnum.PICKUP;
+                    if (columns[3].startsWith(EventEnum.DROPOFF))   eventType = EventEnum.DROPOFF;
                     theNextMoveOptimizer.AddRecord(
                         columns[1], 
                         columns[2], 

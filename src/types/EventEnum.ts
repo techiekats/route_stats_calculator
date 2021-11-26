@@ -1,6 +1,6 @@
 export enum EventEnum {
-    REQUEST,
-    PICKUP,
-    DROPOFF,
-    INVALID
+    REQUEST = 'Request',
+    PICKUP = 'Pickup',
+    DROPOFF = 'Drop-Off',
+    INVALID = ''
 }
