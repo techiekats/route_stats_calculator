@@ -36,7 +36,11 @@ function main(argv: string[]) {
                 }
             });           
             var frequency = theNextMoveOptimizer.GetEventFrequency();
-            console.log(frequency);
+            var timeBetween = theNextMoveOptimizer.GetTimeBetween();
+            var tripSummary = theNextMoveOptimizer.GetTripSummary();
+            console.table(frequency);
+            console.table(timeBetween);
+            console.table(tripSummary);
         });        
     }
 }

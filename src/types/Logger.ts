@@ -13,7 +13,7 @@ export default class Logger implements ILogger {
         console.log(title);
         console.log(exception);
     }
-    LogInfo(message:string):void {
+    LogInfo(message:any):void {
         console.log('\x1b[36m%s\x1b[0m',message);
     }
 }
