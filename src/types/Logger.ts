@@ -3,14 +3,17 @@ import ILogger from "./ILogger";
 export default class Logger implements ILogger {
     LogWarning(title: string, message?: string): void {
         if (!!message) {
-            console.log(`${title} : ${message}`);
+            console.log('\x1b[33m%s\x1b[0m',`${title} : ${message}`);
         }
         else {
-            console.log(title);
+            console.log('\x1b[33m%s\x1b[0m', title);
         }
     }
     LogException(title: string, exception: string): void {
         console.log(title);
         console.log(exception);
+    }
+    LogInfo(message:string):void {
+        console.log('\x1b[36m%s\x1b[0m',message);
     }
 }

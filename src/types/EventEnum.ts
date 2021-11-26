@@ -1,5 +1,6 @@
 export enum EventEnum {
     REQUEST,
     PICKUP,
-    DROPOFF
+    DROPOFF,
+    INVALID
 }

@@ -52,6 +52,8 @@ export default class Trip {
             case EventEnum.PICKUP:
                 from = this.pickupTime;
                 break;
+            default:
+                throw 'Invalid operation';
         }
         switch (end){
             case EventEnum.REQUEST:
@@ -63,6 +65,8 @@ export default class Trip {
             case EventEnum.PICKUP:
                 to = this.pickupTime;
                 break;
+            default:
+                throw 'Invalid operation';
         }
         return to.valueOf() - from.valueOf();
     }

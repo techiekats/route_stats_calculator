@@ -9,10 +9,18 @@ export default class MockLogger implements ILogger {
     public get errorCalled() {
         return this._errorCalled;
     }
+    private _infoCalled = 0;
+    public get infoCalled() {
+        return this._infoCalled;
+    }
     LogWarning(title: string, message?: string): void {
         this._warningCalled += 1;
     }
     LogException(title: string, exception: string): void {
         this._errorCalled += 1;
-    }    
+    }
+    LogInfo(message:string):void {
+        this._infoCalled +=1;
+    }
+
 }
