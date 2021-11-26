@@ -1,3 +1,4 @@
+import { threadId } from "worker_threads";
 import { EventEnum } from "./EventEnum";
 
 export default class Trip {       
@@ -9,14 +10,27 @@ export default class Trip {
     /**
      * Mandatory to have request time to create trip
      */
-    constructor(d: Date, driverId: string, riderId: string) {
-        this.requestTime = d;
+    constructor(driverId: string, riderId: string) {        
         this.driverId = driverId;
         this.riderId = riderId;
+        this.requestTime = new Date(0);
         this.pickupTime = new Date(0);
         this.dropOffTime = new Date(0);      
     }
-
+    public SetEventTime (e: EventEnum, t: Date) {
+        switch (e)
+        {
+            case EventEnum.REQUEST:
+                this.requestTime = t;
+                break;
+            case EventEnum.PICKUP:
+                this.pickupTime = t;
+                break;
+            case EventEnum.DROPOFF:
+                this.dropOffTime = t;
+                break;
+        }
+    }
     public SetPickupTime (p: Date) {
         this.pickupTime = p;
     }
