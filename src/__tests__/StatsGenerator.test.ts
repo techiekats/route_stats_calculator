@@ -15,9 +15,9 @@ import StatsGenerator from "../types/StatsGenerator";
     s.AddRecord(riderId, driverId, new Date(0), EventEnum.DROPOFF);
     s.AddRecord(riderId, driverId, new Date(0), EventEnum.PICKUP);
     var result = s.GetTripSummary();
-    expect(result[riderId]["Request to pickup time"]).toBe(0);
-    expect(result[riderId]["Request to drop off time"]).toBe(0);
-    expect(result[riderId]["Pickup to drop off time"]).toBe(0);
+    expect(result[riderId]["Request to pickup time"]).toBe('0 minutes');
+    expect(result[riderId]["Request to drop off time"]).toBe('0 minutes');
+    expect(result[riderId]["Pickup to drop off time"]).toBe('0 minutes');
     var eventFrequency = s.GetEventFrequency();
     expect(eventFrequency[EventEnum.REQUEST]).toBe(1);
     expect(eventFrequency[EventEnum.PICKUP]).toBe(1);
@@ -48,9 +48,9 @@ import StatsGenerator from "../types/StatsGenerator";
     s.AddRecord(riderId, driverId, dropOff , EventEnum.DROPOFF);
 
     var result = s.GetTripSummary();
-    expect(result[riderId]["Request to pickup time"]).toBe(pickup.valueOf() - now.valueOf());
-    expect(result[riderId]["Request to drop off time"]).toBe(dropOff.valueOf() - now.valueOf());
-    expect(result[riderId]["Pickup to drop off time"]).toBe(dropOff.valueOf() - pickup.valueOf());
+    expect(result[riderId]["Request to pickup time"]).toBe('2.4 minutes');
+    expect(result[riderId]["Request to drop off time"]).toBe('4.5 minutes');
+    expect(result[riderId]["Pickup to drop off time"]).toBe('2.1 minutes');
   });
 
   test('get trip summary - multiple user case', () => {
@@ -71,9 +71,9 @@ import StatsGenerator from "../types/StatsGenerator";
     riderIds.forEach(
       r=> {
         var result = s.GetTripSummary();
-        expect(result[r]["Request to pickup time"]).toBe(24*60*60);
-        expect(result[r]["Request to drop off time"]).toBe(24*60*60 + 45*60*60);
-        expect(result[r]["Pickup to drop off time"]).toBe(45*60*60);
+        expect(result[r]["Request to pickup time"]).toBe('2.4 minutes');
+        expect(result[r]["Request to drop off time"]).toBe('6.9 minutes');
+        expect(result[r]["Pickup to drop off time"]).toBe('4.5 minutes');
       }
     );
     s.AddRecord("K19", "H19", new Date(), EventEnum.REQUEST);

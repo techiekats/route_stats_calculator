@@ -41,15 +41,15 @@ export default class StatsGenerator {
 
     public GetTripSummary () {
         var result: {[key:string]:{
-            "Request to pickup time" : number,
-            "Request to drop off time" : number,
-            "Pickup to drop off time" : number
+            "Request to pickup time" : string,
+            "Request to drop off time" : string,
+            "Pickup to drop off time" : string
         }} = {};
         Object.keys(this.tripsByRider).forEach(x => {
             var summary = {
-                "Request to pickup time" : this.tripsByRider[x].GetTimeDifferenceBetweenEvents(EventEnum.REQUEST, EventEnum.PICKUP),
-                "Request to drop off time" : this.tripsByRider[x].GetTimeDifferenceBetweenEvents(EventEnum.REQUEST, EventEnum.DROPOFF),
-                "Pickup to drop off time" : this.tripsByRider[x].GetTimeDifferenceBetweenEvents(EventEnum.PICKUP, EventEnum.DROPOFF)
+                "Request to pickup time" : `${this.tripsByRider[x].GetTimeDifferenceBetweenEvents(EventEnum.REQUEST, EventEnum.PICKUP)/36000} minutes`,
+                "Request to drop off time" : `${this.tripsByRider[x].GetTimeDifferenceBetweenEvents(EventEnum.REQUEST, EventEnum.DROPOFF)/36000} minutes`,
+                "Pickup to drop off time" : `${this.tripsByRider[x].GetTimeDifferenceBetweenEvents(EventEnum.PICKUP, EventEnum.DROPOFF)/36000} minutes`
             };
             result[x] = summary;            
         });        
