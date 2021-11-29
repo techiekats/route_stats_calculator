@@ -1,3 +1,4 @@
+import MILLISECONDS_IN_A_MINUTE from "../constants";
 import { EventEnum } from "./EventEnum";
 import Time from "./Time";
 import Trip from "./Trip";
@@ -5,13 +6,13 @@ import Trip from "./Trip";
 export default class StatsGenerator {
     private eventFrequency: {[key:string]: number} = {};
     private prevTimeOfEvent: {[key:string]: Date} = {};        
-    private eventTypeStats : {[key: string]: {totalTime:number, min: number, max:number, mean: number}} = {};
+    private eventTypeStats : {[key: string]: {totalTime:number, min: number, max:number}} = {};
     private tripsByRider: {[key: string]: Trip} = {};
         
     constructor() {
-        this.eventTypeStats[EventEnum.REQUEST] = {totalTime: 0 , min: 0, max: 0, mean: NaN};
-        this.eventTypeStats[EventEnum.PICKUP] = {totalTime: 0 , min: 0, max: 0, mean:NaN};
-        this.eventTypeStats[EventEnum.DROPOFF] = {totalTime: 0 , min: 0, max: 0, mean:NaN};
+        this.eventTypeStats[EventEnum.REQUEST] = {totalTime: 0 , min: 0, max: 0};
+        this.eventTypeStats[EventEnum.PICKUP] = {totalTime: 0 , min: 0, max: 0};
+        this.eventTypeStats[EventEnum.DROPOFF] = {totalTime: 0 , min: 0, max: 0};
         this.eventFrequency[EventEnum.REQUEST] = this.eventFrequency[EventEnum.PICKUP] = this.eventFrequency[EventEnum.DROPOFF] = 0;
         this.prevTimeOfEvent[EventEnum.REQUEST] = this.prevTimeOfEvent[EventEnum.PICKUP] = this.prevTimeOfEvent[EventEnum.DROPOFF] = new Date(0);
     }
@@ -41,15 +42,15 @@ export default class StatsGenerator {
 
     public GetTripSummary () {
         var result: {[key:string]:{
-            "Request to pickup time" : string,
-            "Request to drop off time" : string,
-            "Pickup to drop off time" : string
+            "Request to pickup time" : number,
+            "Request to drop off time" : number,
+            "Pickup to drop off time" : number
         }} = {};
         Object.keys(this.tripsByRider).forEach(x => {
             var summary = {
-                "Request to pickup time" : `${this.tripsByRider[x].GetTimeDifferenceBetweenEvents(EventEnum.REQUEST, EventEnum.PICKUP)/36000} minutes`,
-                "Request to drop off time" : `${this.tripsByRider[x].GetTimeDifferenceBetweenEvents(EventEnum.REQUEST, EventEnum.DROPOFF)/36000} minutes`,
-                "Pickup to drop off time" : `${this.tripsByRider[x].GetTimeDifferenceBetweenEvents(EventEnum.PICKUP, EventEnum.DROPOFF)/36000} minutes`
+                "Request to pickup time" : Math.round(this.tripsByRider[x].GetTimeDifferenceBetweenEvents(EventEnum.REQUEST, EventEnum.PICKUP) * 10 /MILLISECONDS_IN_A_MINUTE) / 10,
+                "Request to drop off time" : Math.round(this.tripsByRider[x].GetTimeDifferenceBetweenEvents(EventEnum.REQUEST, EventEnum.DROPOFF) * 10 /MILLISECONDS_IN_A_MINUTE) / 10,
+                "Pickup to drop off time" : Math.round(this.tripsByRider[x].GetTimeDifferenceBetweenEvents(EventEnum.PICKUP, EventEnum.DROPOFF) * 10 /MILLISECONDS_IN_A_MINUTE) / 10
             };
             result[x] = summary;            
         });        
@@ -62,9 +63,14 @@ export default class StatsGenerator {
     }
 
     public GetTimeBetween () {
-        this.eventTypeStats[EventEnum.REQUEST].mean = this.eventTypeStats[EventEnum.REQUEST].totalTime/(this.eventFrequency[EventEnum.REQUEST] - 1);
-        this.eventTypeStats[EventEnum.PICKUP].mean = this.eventTypeStats[EventEnum.PICKUP].totalTime/(this.eventFrequency[EventEnum.PICKUP] - 1);
-        this.eventTypeStats[EventEnum.DROPOFF].mean = this.eventTypeStats[EventEnum.DROPOFF].totalTime/(this.eventFrequency[EventEnum.DROPOFF] - 1);
-        return this.eventTypeStats;
+        var result : {[key: string]: {mean:number, min: number, max:number}} = {};
+        Object.keys(this.eventTypeStats).forEach(element => {
+            result[element] = {
+                max: Math.round(this.eventTypeStats[element].max * 10 /MILLISECONDS_IN_A_MINUTE) / 10,
+                min: Math.round(this.eventTypeStats[element].min * 10 /MILLISECONDS_IN_A_MINUTE) /10,
+                mean: Math.round (this.eventTypeStats[element].totalTime * 10 /(this.eventFrequency[element]-1) / MILLISECONDS_IN_A_MINUTE) / 10
+            };
+        });
+        return result;
     }
 }
