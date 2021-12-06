@@ -1,6 +1,5 @@
 import MILLISECONDS_IN_A_MINUTE from "../constants";
 import { EventEnum } from "./EventEnum";
-import Time from "./Time";
 import Trip from "./Trip";
 
 export default class StatsGenerator {
